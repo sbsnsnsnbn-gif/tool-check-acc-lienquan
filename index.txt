@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tool Check ACC Liên Quân</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 1rem;
+      background: #f0f4f8;
+    }
+    h1 {
+      color: #1e40af;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 0.5rem;
+      font-family: monospace;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    select {
+      padding: 0.3rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      margin-top: 0.5rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tool Check ACC Liên Quân</h1>
+
+  <label for="accList">Dán danh sách acc (dạng sdt|pass):</label><br>
+  <textarea id="accList" placeholder="0384567890|matkhau123&#10;0377777777|abc123"></textarea><br>
+  <button onclick="loadAccounts()">Tải danh sách</button>
+
+  <table id="accTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Số điện thoại</th>
+        <th>Mật khẩu</th>
+        <th>Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    function loadAccounts() {
+      const text = document.getElementById("accList").value;
+      const rows = text.trim().split("\\n");
+      const tableBody = document.getElementById("accTable").querySelector("tbody");
+      tableBody.innerHTML = "";
+
+      rows.forEach((line, index) => {
+        const [sdt, pass] = line.split("|");
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${sdt || ""}</td>
+          <td>${pass || ""}</td>
+          <td>
+            <select>
+              <option>⏳ Chưa test</option>
+              <option>✅ Sống</option>
+              <option>❌ Sai pass</option>
+              <option>⚠️ OTP</option>
+              <option>🔒 Khóa</option>
+            </select>
+          </td>
+        `;
+
+        tableBody.appendChild(row);
+      });
+    }
+  </script>
+</body>
+</html>
